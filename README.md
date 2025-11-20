@@ -1,11 +1,10 @@
 # warp.sh
 
-By using this you agree to Cloudflare's ToS: <https://www.cloudflare.com/application/terms/>  
+使用本工具即表示您同意 Cloudflare 的服务条款：<https://www.cloudflare.com/application/terms/>  
 
-## Quick Guide #1
+## 快速指南 #1
 
-Make sure to have `jq`, `curl`, and `wireguard-tools` (for `wg genkey` and `wg pubkey`) installed
-before using this shell script.  
+使用此脚本前，请确保已安装 `jq`、`curl` 和 `wireguard-tools`（用于 `wg genkey` 和 `wg pubkey`）。  
 
 ```shell
 git clone https://github.com/rany2/warp.sh.git
@@ -13,48 +12,46 @@ cd warp.sh
 ./warp.sh
 ```
 
-The generated wireguard config will be printed to stdout.
+生成的 WireGuard 配置将输出至标准输出。
 
-## Quick Guide #2
+## 快速指南 #2
 
-To execute this script on GitHub Codespaces without the need to set up a local environment, follow these steps:
+若要在 GitHub Codespaces 上运行此脚本，无需设置本地环境，请按以下步骤操作：
 
-1. Open the repository and locate the green buttons. Click on "Code" then select "Codespaces" and finally choose "Create codespace on master".
-2. Wait for the codespace to be created. Once it's ready, open the terminal and run the command `./warp.sh`.
-3. After you've finished using the codespace, it's important to delete it to maintain cleanliness and save resources.
+1. 打开仓库页面，找到绿色按钮，点击“Code”，选择“Codespaces”，然后选择“Create codespace on master”。
+2. 等待 Codespace 创建完成。就绪后，打开终端并运行命令 `./warp.sh`。
+3. 使用完毕后，请务必删除 Codespace，以保持整洁并节省资源。
 
-Please note that deleting the codespace will remove all the changes and configurations made within it, so make sure to save any important files or settings before closing.
+请注意，删除 Codespace 会清除其中的所有更改和配置，因此关闭前请确保已保存重要文件或设置。
 
-## Usage options
+## 使用选项
 
 ```
-Usage ./warp.sh [options]
-  -4  use ipv4 for curl
-  -6  use ipv6 for curl
-  -T  teams JWT token (default no JWT token is sent)
-  -R  refresh token (format is token,device_id,wg_private_key; specify this to get a refreshed config)
-  -t  show cloudflare trace and exit only
-  -h  show this help page and exit only
+用法：./warp.sh [选项]
+  -4  使用 IPv4 执行 curl
+  -6  使用 IPv6 执行 curl
+  -T  Teams JWT 令牌（默认不发送 JWT 令牌）
+  -R  刷新令牌（格式为 token,device_id,wg_private_key；指定此项以获取更新后的配置）
+  -t  显示 Cloudflare 测速信息后退出
+  -h  显示此帮助页面后退出
 ```
 
-### Regarding Teams enrollment
+### 关于 Teams 注册
 
-  1. Visit https://\<teams id>.cloudflareaccess.com/warp
-  2. Authenticate yourself as you would with the official client
-  3. Check the source code of the page for the JWT token or use the following code in the "Web Console" (Ctrl+Shift+K):
+  1. 访问 https://\<teams id>.cloudflareaccess.com/warp
+  2. 像使用官方客户端一样完成身份验证
+  3. 检查页面源代码以查找 JWT 令牌，或在“网页控制台”（Ctrl+Shift+K）中运行以下代码：
 
 ```js
 console.log(document.querySelector("meta[http-equiv='refresh']").content.split("=")[2])
 ```
 
-  4. Pass the output as the value for the parameter -T. The final command will look like:
+  4. 将输出结果作为 `-T` 参数的值传入。最终命令如下所示：
 
 ```shell
 ./warp.sh -T eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.....
 ```
 
-### Regarding -T and -R options
+### 关于 -T 与 -R 选项
 
-`-T` and `-R` both could take a file as an argument. The file should be in the same
-format as the command line argument. This is so that the token wouldn't be exposed
-in the shell history or process list.
+`-T` 和 `-R` 均支持传入文件作为参数。文件内容格式需与命令行参数格式相同。此举可避免令牌暴露于 shell 历史记录或进程列表中。
